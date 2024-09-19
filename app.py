@@ -79,6 +79,7 @@ def get_db() -> sqlite3.Connection:
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        db.execute('PRAGMA foreign_keys = ON')  # 外部キー制約を有効化
         db.row_factory = sqlite3.Row  # カラム名でアクセスできるよう設定変更
     return db
 
