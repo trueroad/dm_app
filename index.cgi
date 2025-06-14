@@ -1,4 +1,4 @@
-#!/usr/keio/Anaconda3-2023.09-0/bin/python
+#!/usr/keio/Anaconda3-2024.10-1/bin/python
 
 import cgitb
 cgitb.enable()
