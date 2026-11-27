@@ -744,6 +744,10 @@ def employee_edit_update(id: str) -> Response:
         # 給与が整数型へ変換できない
         return redirect(url_for('employee_edit_results',
                                 code='salary-has-invalid-character'))
+    if salary > SQLITE_INTEGER_MAX or salary < SQLITE_INTEGER_MIN:
+        # 給与が範囲外
+        return redirect(url_for('employee_edit_results',
+                                code='salary-is-out-of-range'))
 
     #
     # 生年チェック
