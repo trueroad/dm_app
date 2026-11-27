@@ -453,6 +453,10 @@ def employee_del(id: str) -> str:
         return render_template('employee-del-results.html',
                                results='指定された社員番号には'
                                '使えない文字があります')
+    if id_num > SQLITE_INTEGER_MAX or id_num < SQLITE_INTEGER_MIN:
+        # 社員番号が範囲外
+        return render_template('employee-del-results.html',
+                               results='指定された社員番号は範囲外です')
     # 社員番号の存在チェックをする：
     # employees テーブルで同じ社員番号の行を 1 行だけ取り出す
     employee = cur.execute('SELECT id FROM employees WHERE id = ?',
