@@ -697,6 +697,10 @@ def employee_edit_update(id: str) -> Response:
         # 社員番号が整数型へ変換できない
         return redirect(url_for('employee_edit_results',
                                 code='manager-id-has-invalid-character'))
+    if manager_id > SQLITE_INTEGER_MAX or manager_id < SQLITE_INTEGER_MIN:
+        # 社員番号が範囲外
+        return redirect(url_for('employee_edit_results',
+                                code='manager-id-is-out-of-range'))
     if id_num != manager_id:
         # 指定された社員番号と上司の社員番号が不一致
         # →上司が別に存在する必要がある→上司の存在チェックをする：
