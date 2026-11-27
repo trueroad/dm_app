@@ -59,6 +59,9 @@ RESULT_MESSAGES: Final[dict[str, str]] = {
     '更新しました'
 }
 
+SQLITE_INTEGER_MAX: Final[int] = (1 << 63) - 1  # 9223372036854775807
+SQLITE_INTEGER_MIN: Final[int] = -(1 << 63)  # -9223372036854775808
+
 
 def get_db() -> sqlite3.Connection:
     """
