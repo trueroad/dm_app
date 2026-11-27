@@ -226,6 +226,10 @@ def employee(id: str) -> str:
         # 社員番号が整数型へ変換できない→不正な社員番号が指定された
         # →データベースにあたるまでもなくそのような社員は見つからない
         return render_template('employee-not-found.html')
+    if id_num > SQLITE_INTEGER_MAX or id_num < SQLITE_INTEGER_MIN:
+        # 社員番号が範囲外→不正な社員番号が指定された
+        # →データベースにあたるまでもなくそのような社員は見つからない
+        return render_template('employee-not-found.html')
 
     # employees テーブルから指定された社員番号の行を 1 行だけ取り出す
     employee = cur.execute('SELECT * FROM employees WHERE id = ?',
