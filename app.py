@@ -37,6 +37,9 @@ RESULT_MESSAGES: Final[dict[str, str]] = {
     'manager-id-has-invalid-character':
     '指定された上司の社員番号には使えない文字があります - '
     '数字のみで指定してください',
+    'manager-id-is-out-of-range':
+    '指定された上司の社員番号は範囲外です - '
+    '範囲内の数字を指定してください',
     'manager-id-does-not-exist':
     '指定された上司の社員番号が存在しません - '
     '既に存在する社員番号か追加する社員の社員番号と同じものを指定してください',
@@ -326,6 +329,10 @@ def employee_add_execute() -> Response:
         # 社員番号が整数型へ変換できない
         return redirect(url_for('employee_add_results',
                                 code='manager-id-has-invalid-character'))
+    if manager_id > SQLITE_INTEGER_MAX or manager_id < SQLITE_INTEGER_MIN:
+        # 社員番号が範囲外
+        return redirect(url_for('employee_add_results',
+                                code='manager-id-is-out-of-range'))
     if id != manager_id:
         # 指定された社員番号と上司の社員番号が不一致
         # →上司が別に存在する必要がある→上司の存在チェックをする：
