@@ -752,6 +752,10 @@ def employee_edit_update(id: str) -> Response:
         # 入社年が整数型へ変換できない
         return redirect(url_for('employee_edit_results',
                                 code='start-year-has-invalid-character'))
+    if start_year > SQLITE_INTEGER_MAX or start_year < SQLITE_INTEGER_MIN:
+        # 入社年が範囲外
+        return redirect(url_for('employee_edit_results',
+                                code='start-year-is-out-of-range'))
 
     #
     # 名前チェック
