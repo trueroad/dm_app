@@ -49,6 +49,9 @@ RESULT_MESSAGES: Final[dict[str, str]] = {
     'birth-year-has-invalid-character':
     '指定された生年には使えない文字があります - '
     '数字のみで指定してください',
+    'birth-year-is-out-of-range':
+    '指定された生年は範囲外です - '
+    '範囲内の数字を指定してください',
     'start-year-has-invalid-character':
     '指定された入社年には使えない文字があります - '
     '数字のみで指定してください',
@@ -369,6 +372,10 @@ def employee_add_execute() -> Response:
         # 生年が整数型へ変換できない
         return redirect(url_for('employee_add_results',
                                 code='birth-year-has-invalid-character'))
+    if birth_year > SQLITE_INTEGER_MAX or birth_year < SQLITE_INTEGER_MIN:
+        # 生年が範囲外
+        return redirect(url_for('employee_add_results',
+                                code='birth-year-is-out-of-range'))
 
     #
     # 入社年チェック
