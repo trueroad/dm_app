@@ -46,6 +46,9 @@ RESULT_MESSAGES: Final[dict[str, str]] = {
     'salary-has-invalid-character':
     '指定された給与には使えない文字があります - '
     '数字のみで指定してください',
+    'salary-is-out-of-range':
+    '指定された給与は範囲外です - '
+    '範囲内の数字を指定してください',
     'birth-year-has-invalid-character':
     '指定された生年には使えない文字があります - '
     '数字のみで指定してください',
@@ -361,6 +364,10 @@ def employee_add_execute() -> Response:
         # 給与が整数型へ変換できない
         return redirect(url_for('employee_add_results',
                                 code='salary-has-invalid-character'))
+    if salary > SQLITE_INTEGER_MAX or salary < SQLITE_INTEGER_MIN:
+        # 給与が範囲外
+        return redirect(url_for('employee_add_results',
+                                code='salary-is-out-of-range'))
 
     #
     # 生年チェック
