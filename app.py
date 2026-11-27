@@ -23,6 +23,9 @@ RESULT_MESSAGES: Final[dict[str, str]] = {
     'id-has-invalid-character':
     '指定された社員番号には使えない文字があります - '
     '数字のみで指定してください',
+    'id-is-out-of-range':
+    '指定された社員番号は範囲外です - '
+    '範囲内の数字を指定してください',
     'id-already-exists':
     '指定された社員番号は既に存在します - '
     '存在しない社員番号を指定してください',
@@ -296,6 +299,10 @@ def employee_add_execute() -> Response:
         # 社員番号が整数型へ変換できない
         return redirect(url_for('employee_add_results',
                                 code='id-has-invalid-character'))
+    if id > SQLITE_INTEGER_MAX or id < SQLITE_INTEGER_MIN:
+        # 社員番号が範囲外
+        return redirect(url_for('employee_add_results',
+                                code='id-is-out-of-range'))
     # 社員番号の存在チェックをする：
     # employees テーブルで同じ社員番号の行を 1 行だけ取り出す
     employee = cur.execute('SELECT id FROM employees WHERE id = ?',
